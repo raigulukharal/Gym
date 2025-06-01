@@ -9,18 +9,64 @@ const Navbar = () => {
   };
 
   return (
-    <div className="bg-black w-full text-white px-4 py-3 flex flex-wrap items-center justify-between gap-3 sm:gap-4">
+    <div className="bg-black w-full text-white px-4 py-3 flex flex-col sm:flex-row items-start justify-between gap-3 sm:gap-4">
 
       {/* Logo - always left & small text */}
-      <div className="flex-shrink-0">
-        <p className="font-bold px-2 py-1 border-2 border-white rounded-md 
-          text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">
-          GURUNANK GYM
-        </p>
+      <div className="flex-shrink-0 sm:pl-4 sm:mr-32 sm:w-auto w-full">
+      <p className="font-bold px-2 py-1 rounded-md 
+  text-xs sm:text-sm md:text-base lg:text-lg whitespace-nowrap">
+  GURUNANK GYM
+</p>
       </div>
 
-      {/* Nav - always in a single row, small text */}
-      <nav className="flex flex-wrap gap-2 sm:gap-2 md:gap-3 lg:gap-4">
+      {/* Sidebar toggle for small devices - positioned on the right */}
+      <div className="sm:hidden absolute top-3 right-4">
+        <button
+          id="menu-toggle"
+          className="text-white focus:outline-none"
+          onClick={() => {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('hidden');
+          }}
+        >
+          ☰
+        </button>
+      </div>
+
+      {/* Sidebar for small devices */}
+      <div
+        id="sidebar"
+        className="hidden fixed top-0 left-0 w-3/4 h-full bg-black text-white z-50 flex flex-col items-start p-4"
+      >
+        <button
+          className="self-end text-white text-2xl mb-4 focus:outline-none"
+          onClick={() => {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.add('hidden');
+          }}
+        >
+          ✕
+        </button>
+        {['gallery', 'contact', 'pricing', 'bmi'].map((item) => (
+          <button
+            key={item}
+            onClick={() => {
+              const sidebar = document.getElementById('sidebar');
+              sidebar.classList.add('hidden');
+              const section = document.getElementById(item);
+              if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+              }
+            }}
+            className="font-semibold text-lg py-2"
+          >
+            {item === 'bmi' ? 'BMI Calculator' : item}
+          </button>
+        ))}
+      </div>
+
+      {/* Nav - hidden on small devices, visible on larger */}
+      <nav className="hidden sm:flex flex-col sm:flex-row flex-wrap gap-2 sm:gap-2 md:gap-3 lg:gap-4">
         {['gallery', 'contact', 'pricing', 'bmi'].map((item) => (
           <button
             key={item}
